@@ -10,61 +10,105 @@ function computerPlay() {  /*generates 0-2 then prints the computers choice*/
     var cpuChoice = "paper"}
     else {console.log('Bot chose SCISSORS') /*when cpu=1, prints scissors*/
     var cpuChoice = "scissors"}
-    return(cpuChoice) /* returns the selection 0-2*/
+
+    return(cpuChoice) /* returns the selection*/
 }
 
-function playGame(playerSelection,computerSelection,winCount) { /*plays a round of rock paper scissors*/
+/*--------------------------------------------------------------------------*/
+function playRound(playerSelection,computerSelection,winCount,roundCounter) { /*plays a round of rock paper scissors*/
 
-    if (playerSelection===computerSelection) {console.log('Ewww - it\'s a tie!')}
+console.log(`player chose ${playerSelection}`);
+computerSelection = computerPlay();
+console.log(`cpu chose ${computerSelection}`);
+
+
+    if (playerSelection===computerSelection) {
+        console.log('Ewww - it\'s a tie!');
+
+        const container = document.querySelector('#container');
+        const result = document.createElement('div');
+        result.classList.add('content');
+        result.textContent = `Eww it's a tie!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        container.appendChild(result);
+        }
 
     else if ((playerSelection==="paper" && computerSelection === "rock") || 
     (playerSelection==="rock" && computerSelection === "scissors") || 
-    (playerSelection==="scissors" && computerSelection === "paper")) {console.log('Player winz!! Celebrate this victory while it lasts....the computer is one unforgiving bastard....')
-    winCount += 1  
-}
+    (playerSelection==="scissors" && computerSelection === "paper")) {
+        console.log('Player winz!! Celebrate this victory while it lasts....the computer is one unforgiving bastard....')
+        winCount += 1;  
 
+        const container = document.querySelector('#container');
+        const result = document.createElement('div');
+        result.classList.add('content');
+        result.textContent = `Player Winz!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        container.appendChild(result);
+    }
 
     else if  ((playerSelection==="paper" && computerSelection === "scissors") || 
     (playerSelection==="rock" && computerSelection === "paper") || 
-    (playerSelection==="scissors" && computerSelection === "rock")) {console.log('The computer has won. Wallow in the despair of your defeat loser')}
+    (playerSelection==="scissors" && computerSelection === "rock")) {
+        console.log('The computer has won. Wallow in the despair of your defeat loser');
 
-    return winCount
+        const container = document.querySelector('#container');
+        const result = document.createElement('div');
+        result.classList.add('content');
+        cpuCount = roundCounter - winCount;
+        console.log(cpuCount);
+        result.textContent = `Computer Winz!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        container.appendChild(result);   
+    }
+
+    var roundCounter = displayResult (winCount);
+
+    return winCount;
 }
 
+/*--------------------------------------------------------------------------*/
+function pSelect(computerSelection,winCount,roundCounter) { /*Creates button and calls playgame player selection and returns it in lowercase*/
 
-function game (winCount) {
+    var wc /* Player wind counter */
 
-for (let i=0;i<5;i++) {
-    let playerSelection = pSelect()
-    let computerSelection = computerPlay() /*Assigns the computers random choice to computerSelection*/
+    const btn_r = document.querySelector("#btn_r");
+    btn_r.addEventListener('click', () => {
+        wc = playRound ("rock",computerSelection,winCount,roundCounter);
+    })
 
-    console.log("Player chose: ")
-console.log(playerSelection)
+    const btn_p = document.querySelector("#btn_p");
+    btn_p.addEventListener('click', () => {
+        wc = playRound ("paper",computerSelection,winCount,roundCounter);})
 
-    winCount = playGame(playerSelection,computerSelection,winCount)
-    console.log(winCount)
-   
+    const btn_s = document.querySelector("#btn_s");
+    btn_s.addEventListener('click', () => {
+        wc = playRound ("scissors",computerSelection,winCount,roundCounter);})
+
+    return wc;
+
+    }
+
+/*--------------------------------------------------------------------------*/
+function displayResult (winCount,i) {
     if (winCount ==  3){
-        console.log(winCount)
-        console.log("PLAYER WINS") 
-        i = 5}
-    else if (i==5) { console.log("Computer wins :(( Better luck next time!")}
+        console.log(winCount);
+        console.log("PLAYER WINS"); 
+        i = 5;}
+
+    else if (i==5) {console.log("Computer wins :(( Better luck next time!")}
     else (console.log("No winner yet....next round!!!"))
 }
 
-}
+/*--------------------------------------------------------------------------*/
+function game (winCount,roundCounter) {
 
-function pSelect() { /*Function gets player selection and returns it in lowercase*/
+    /*for (i = 0; i<5; i++) {*/
+        
+        var winCounter = pSelect(winCount,roundCounter);
 
-    let playerInput = prompt("Enter your selection warrior!") /*Gives prompt to user, assigns selection to playerInput*/
+            return winCounter
+  }
 
-    let playerSelection = playerInput.toLowerCase() /*Assigns user input converted to lower case to playerSelection*/
-    
-    return (playerSelection)
+var winCount = 0; /*Initializes win counter to 0*/
+var roundCounter = 0;
 
-}
-
-let winCount = 0 /*Intitializes win counter to 0*/
-
-game(winCount)
+game(winCount,roundCounter);
 
