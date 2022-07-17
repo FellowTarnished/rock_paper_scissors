@@ -17,18 +17,13 @@ function computerPlay() {  /*generates 0-2 then prints the computers choice*/
 /*--------------------------------------------------------------------------*/
 function playRound(playerSelection,score) { /*plays a round of rock paper scissors*/
 
-console.log(`player chose ${playerSelection}`);
 computerSelection = computerPlay();
-console.log(`cpu chose ${computerSelection}`);
-
-
 
     if (playerSelection===computerSelection) {
         console.log('Ewww - it\'s a tie!');
 
         const container = document.querySelector('#container');
-        const result = document.createElement('div');
-        result.classList.add('content');
+        const result = document.createElement('p');
         result.textContent = `Eww it's a tie!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);
         }
@@ -40,8 +35,7 @@ console.log(`cpu chose ${computerSelection}`);
         score[0] += 1;  
         
         const container = document.querySelector('#container');
-        const result = document.createElement('div');
-        result.classList.add('content');
+        const result = document.createElement('p');
         result.textContent = `Player Winz!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);
     }
@@ -53,8 +47,7 @@ console.log(`cpu chose ${computerSelection}`);
         score[1] += 1;
 
         const container = document.querySelector('#container');
-        const result = document.createElement('div');
-        result.classList.add('content');
+        const result = document.createElement('p');
         result.textContent = `Computer Winz!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);   
     }
@@ -90,11 +83,27 @@ function pSelect(score) { /*Creates button and calls playgame player selection a
 /*--------------------------------------------------------------------------*/
 function displayResult (score) {
     if (score[0] ==  3){
-        console.log(score[0]);
-        console.log("PLAYER WINS")}
+        const container = document.querySelector('#container');
+        const resultPlayer = document.createElement('div');
+        resultPlayer.classList.add('content');
+        resultPlayer.textContent = `PLAYER HAS WON!!! RAGE RAGE THE NIGHT AWAY!!!`;
+        container.appendChild(result.Player);
+    }
 
-    else if (score[2]==5) {console.log("Computer wins :(( Better luck next time!")}
-    else (console.log("No winner yet....next round!!!"))
+    else if (score[1]==3) {
+        const container = document.querySelector('#container');
+        const result = document.createElement('div');
+        result.classList.add('content');
+        result.textContent = `Computer wins :(( Better luck next time!"`;
+        container.appendChild(result);
+    }
+    else { 
+        let container = document.querySelector('#container');
+        const result = document.createElement('div');
+        result.classList.add('content');
+        result.textContent = `No winner yet....next round!!!`;
+        container.appendChild(result);}
+
     score[2] += 1
     return score[2];
 }
