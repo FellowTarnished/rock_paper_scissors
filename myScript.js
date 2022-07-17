@@ -15,11 +15,12 @@ function computerPlay() {  /*generates 0-2 then prints the computers choice*/
 }
 
 /*--------------------------------------------------------------------------*/
-function playRound(playerSelection,computerSelection,winCount,roundCounter) { /*plays a round of rock paper scissors*/
+function playRound(playerSelection,score) { /*plays a round of rock paper scissors*/
 
 console.log(`player chose ${playerSelection}`);
 computerSelection = computerPlay();
 console.log(`cpu chose ${computerSelection}`);
+
 
 
     if (playerSelection===computerSelection) {
@@ -28,7 +29,7 @@ console.log(`cpu chose ${computerSelection}`);
         const container = document.querySelector('#container');
         const result = document.createElement('div');
         result.classList.add('content');
-        result.textContent = `Eww it's a tie!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        result.textContent = `Eww it's a tie!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);
         }
 
@@ -36,12 +37,12 @@ console.log(`cpu chose ${computerSelection}`);
     (playerSelection==="rock" && computerSelection === "scissors") || 
     (playerSelection==="scissors" && computerSelection === "paper")) {
         console.log('Player winz!! Celebrate this victory while it lasts....the computer is one unforgiving bastard....')
-        winCount += 1;  
-
+        score[0] += 1;  
+        
         const container = document.querySelector('#container');
         const result = document.createElement('div');
         result.classList.add('content');
-        result.textContent = `Player Winz!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        result.textContent = `Player Winz!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);
     }
 
@@ -49,66 +50,66 @@ console.log(`cpu chose ${computerSelection}`);
     (playerSelection==="rock" && computerSelection === "paper") || 
     (playerSelection==="scissors" && computerSelection === "rock")) {
         console.log('The computer has won. Wallow in the despair of your defeat loser');
+        score[1] += 1;
 
         const container = document.querySelector('#container');
         const result = document.createElement('div');
         result.classList.add('content');
-        cpuCount = roundCounter - winCount;
-        console.log(cpuCount);
-        result.textContent = `Computer Winz!  Player: ${winCount} Computer: ${roundCounter - winCount}`;
+        result.textContent = `Computer Winz!  Player: ${score[0]} Computer: ${score[1]}`;
         container.appendChild(result);   
     }
 
-    var roundCounter = displayResult (winCount);
+    score[2] = displayResult (score);
 
-    return winCount;
+    return [score[0],score[1],score[2]];
 }
 
 /*--------------------------------------------------------------------------*/
-function pSelect(computerSelection,winCount,roundCounter) { /*Creates button and calls playgame player selection and returns it in lowercase*/
-
-    var wc /* Player wind counter */
+function pSelect(score) { /*Creates button and calls playgame player selection and returns it in lowercase*/
 
     const btn_r = document.querySelector("#btn_r");
     btn_r.addEventListener('click', () => {
-        wc = playRound ("rock",computerSelection,winCount,roundCounter);
+        score = playRound ("rock",score);
+        console.log(score);
     })
 
     const btn_p = document.querySelector("#btn_p");
     btn_p.addEventListener('click', () => {
-        wc = playRound ("paper",computerSelection,winCount,roundCounter);})
+        score = playRound ("paper",score);
+        console.log(score);    })
 
     const btn_s = document.querySelector("#btn_s");
     btn_s.addEventListener('click', () => {
-        wc = playRound ("scissors",computerSelection,winCount,roundCounter);})
+        score = playRound ("scissors",score);
+        console.log(score);    })
 
-    return wc;
+    return score;
 
     }
 
 /*--------------------------------------------------------------------------*/
-function displayResult (winCount,i) {
-    if (winCount ==  3){
-        console.log(winCount);
-        console.log("PLAYER WINS"); 
-        i = 5;}
+function displayResult (score) {
+    if (score[0] ==  3){
+        console.log(score[0]);
+        console.log("PLAYER WINS")}
 
-    else if (i==5) {console.log("Computer wins :(( Better luck next time!")}
+    else if (score[2]==5) {console.log("Computer wins :(( Better luck next time!")}
     else (console.log("No winner yet....next round!!!"))
+    score[2] += 1
+    return score[2];
 }
 
 /*--------------------------------------------------------------------------*/
-function game (winCount,roundCounter) {
+function game () {
 
     /*for (i = 0; i<5; i++) {*/
-        
-        var winCounter = pSelect(winCount,roundCounter);
+    const score = [0,0,0]; /*Initializes win counter to 0,0,0*/
 
-            return winCounter
+    var winCounter = pSelect(score);
+
+            return winCounter;
   }
 
-var winCount = 0; /*Initializes win counter to 0*/
-var roundCounter = 0;
 
-game(winCount,roundCounter);
+game();
 
